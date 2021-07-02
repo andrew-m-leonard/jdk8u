@@ -51,6 +51,8 @@ static void dll_build_name(char* buffer, size_t buflen,
         return;
     }
 
+    printf("DBG_PATH = fname=%s, path=%s\n",fname,paths_copy);
+
     next_token = NULL;
     path = strtok_s(paths_copy, PATH_SEPARATOR, &next_token);
 
