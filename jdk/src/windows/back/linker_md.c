@@ -59,14 +59,16 @@ static void dll_build_name(char* buffer, size_t buflen,
     while (path != NULL) {
         size_t result_len = (size_t)_snprintf(buffer, buflen, "%s\\%s.dll", path, fname);
         if (result_len >= buflen) {
-            EXIT_ERROR(JVMTI_ERROR_INVALID_LOCATION, "One or more of the library paths supplied to jdwp, "
-                                                     "likely by sun.boot.library.path, is too long.");
+            char emsg[4000];
+            sprintf(emsg,"BAD ! DBG_PATH = fname=%s, path=%s paths_copy=%s\n",fname,path,paths_copy); 
+            EXIT_ERROR(JVMTI_ERROR_INVALID_LOCATION, emsg);
         } else if (_access(buffer, 0) == 0) {
             break;
         }
         *buffer = '\0';
         path = strtok_s(NULL, PATH_SEPARATOR, &next_token);
     }
+    printf("Good fname=%s\n",fname);
 
     jvmtiDeallocate(paths_copy);
 }
